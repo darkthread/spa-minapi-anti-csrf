@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+
+<body>
+    <button onclick="callAjax()">Get GUID by AJAX</button>
+    <script>
+        function callAjax() {
+            fetch('/ajax', { method: 'POST' })
+                .then(response => response.ok ? response.text() : response.statusText)
+                .then(data => alert(data));
+        }
+    </script>
+</body>
+
+</html>
