@@ -9,8 +9,18 @@
 <body>
     <button onclick="callAjax()">Get GUID by AJAX</button>
     <script>
+        // 取得 XSRF-TOKEN
+        let xsrfToken;
+        fetch("/antiforgery/token", { method: "POST" })
+            .then(res => {
+                xsrfToken = document.cookie
+                    .split("; ")
+                    .find(row => row.startsWith("XSRF-TOKEN="))
+                    .split("=")[1];
+            });
+
         function callAjax() {
-            fetch('/ajax', { method: 'POST' })
+            fetch('/ajax', { method: 'POST', headers: { 'X-XSRF-TOKEN': xsrfToken } })
                 .then(response => response.ok ? response.text() : response.statusText)
                 .then(data => alert(data));
         }
